@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="TestingVisprogFinal" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-2E3LG5H\SQLEXPRESS01;Initial Catalog=TestingVisprogFinal;Integrated Security=True" SettingsObjectName="ProjectUASVisprog.Properties.Settings" SettingsPropertyName="TestingVisprogFinalConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Login_User" Member="Login_Users">
+    <Type Name="Login_User">
+      <Column Name="Username" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Passwords" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Transaksi" Member="Transaksis">
+    <Type Name="Transaksi">
+      <Column Name="No_Resi" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NoResi" Type="System.String" DbType="VarChar(9)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Cust_Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Cust_Phone" Type="System.String" DbType="Char(15) NOT NULL" CanBeNull="false" />
+      <Column Name="Cust_Address" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Cust_Zip" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Column Name="Cust_City" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Cust_Country" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Rec_Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Rec_Phone" Type="System.String" DbType="Char(15)" CanBeNull="true" />
+      <Column Name="Rec_Address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Rec_Zip" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="Rec_City" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Rec_Country" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Item_Type" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Item_Desc" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Item_Weight" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="timeLimit" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Staff_Id" Type="System.String" DbType="Char(5)" CanBeNull="true" />
+      <Column Name="Ship_Type" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Ship_Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="ReceivedBy" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="Transaksi_Order" Member="Orders" ThisKey="No_Resi" OtherKey="No_Resi" Type="Order" />
+      <Association Name="Transaksi_Payment" Member="Payments" ThisKey="No_Resi" OtherKey="No_Resi" Type="Payment" />
+      <Association Name="Staff_Transaksi" Member="Staff" ThisKey="Staff_Id" OtherKey="Staff_ID" Type="Staff" IsForeignKey="true" />
+      <Association Name="Tarif_Transaksi" Member="Tarif" ThisKey="Ship_Type" OtherKey="Ship_type" Type="Tarif" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Orders" Member="Orders">
+    <Type Name="Order">
+      <Column Name="No_Order" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NoOrder" Type="System.String" DbType="VarChar(9)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="No_Resi" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Ship_Type" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Orders_Date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Status_Order" Type="System.String" DbType="VarChar(25)" CanBeNull="true" />
+      <Association Name="Transaksi_Order" Member="Transaksi" ThisKey="No_Resi" OtherKey="No_Resi" Type="Transaksi" IsForeignKey="true" />
+      <Association Name="Tarif_Order" Member="Tarif" ThisKey="Ship_Type" OtherKey="Ship_type" Type="Tarif" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Payment" Member="Payments">
+    <Type Name="Payment">
+      <Column Name="No_Payment" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NoPayment" Type="System.String" DbType="VarChar(9)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="No_Resi" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Item_Weight" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Ship_Type" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="SubTotal" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Pay_Method" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Association Name="Transaksi_Payment" Member="Transaksi" ThisKey="No_Resi" OtherKey="No_Resi" Type="Transaksi" IsForeignKey="true" />
+      <Association Name="Tarif_Payment" Member="Tarif" ThisKey="Ship_Type" OtherKey="Ship_type" Type="Tarif" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Staff" Member="Staffs">
+    <Type Name="Staff">
+      <Column Name="Staff_ID" Type="System.String" DbType="Char(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Staff_Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Staff_Gender" Type="System.String" DbType="VarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="Staff_DOB" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Staff_Position" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Staff_Phone" Type="System.String" DbType="Char(15) NOT NULL" CanBeNull="false" />
+      <Column Name="Staff_Email" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="Staff_Transaksi" Member="Transaksis" ThisKey="Staff_ID" OtherKey="Staff_Id" Type="Transaksi" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Tarif" Member="Tarifs">
+    <Type Name="Tarif">
+      <Column Name="Ship_type" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Distance" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Ship_Fee" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Column Name="Dist_Fee" Type="System.Single" DbType="Real" CanBeNull="true" />
+      <Association Name="Tarif_Transaksi" Member="Transaksis" ThisKey="Ship_type" OtherKey="Ship_Type" Type="Transaksi" />
+      <Association Name="Tarif_Order" Member="Orders" ThisKey="Ship_type" OtherKey="Ship_Type" Type="Order" />
+      <Association Name="Tarif_Payment" Member="Payments" ThisKey="Ship_type" OtherKey="Ship_Type" Type="Payment" />
+    </Type>
+  </Table>
+</Database>
